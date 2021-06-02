@@ -1,5 +1,36 @@
-def join(table1, table2):  # основная функция для Nested loop join, принимает две таблицы List[Tuple]
-    table = []  # инициализация итоговой таблицы
+"""Модуль Nested loop join"""
+from typing import List, Tuple
+
+
+def join(table1: List[Tuple], table2: List[Tuple]):  # функция для Nested loop join, принимает две таблицы List[Tuple]
+    """создать новую таблицу через алгоритм Nlj
+
+    :param table1: - принимает первую таблицу List[Tuple]
+    :param table2: - принимает вторую таблицу List[Tuple]
+    :return: - итоговая таблица table с результатом соединения двух входящих таблиц
+
+    пример первой таблицы
+    t1 = [
+    (1, "a"),
+    (2, "b"),
+    (3, "c"),
+    (4, "d")]
+    пример второй таблицы
+    t2 = [
+    ("a", "abra"),
+    ("b", "babra"),
+    ("c", "cabra"),
+    ("d", "dabra"),
+    ("e", "eureka"),
+    ("f", "furia")]
+    результатом алгоритма будет итоговая таблица:
+    table = [
+    (1, "a", "a", "abra"),
+    (2, "b", "b", "babra"),
+    (3, "c", "c", "cabra"),
+    (4, "d", "d", "dabra")]
+    """
+    table: List[Tuple] = []  # инициализация итоговой таблицы
     for tuple1 in table1:  # цикл для каждой строчки первой таблицы
         for tuple2 in table2:  # цикл для каждой строчки второй таблицы
             if condition_callback(tuple1, tuple2):  # принимаем результат функции сравнения строк таблиц
@@ -8,34 +39,31 @@ def join(table1, table2):  # основная функция для Nested loop 
     return order_comparator_callback(table)  # возврат итоговой отсортированной таблицы
 
 
-def condition_callback(tuple1, tuple2):  # функция сравнения первой и второй таблицы построчно
+def condition_callback(tuple1: Tuple, tuple2: Tuple):  # функция сравнения первой и второй таблицы построчно
+    """Сравнить отдельные строки таблицы по индексу элемента
+
+    :param tuple1: - принимает отделюную строку Tuple таблицы table1
+    :param tuple2: - принимает отдельную строку Tuple таблицы table2
+    :return: - bool (True/False) при сравнении строк
+    """
     return tuple1[1] == tuple2[0]  # сравнение по индексу элемента в строке
 
 
-def select_columns_callback(tuple1, tuple2):  # функция соединения строк первой и второй таблицы
+def select_columns_callback(tuple1: Tuple, tuple2: Tuple):  # функция соединения строк первой и второй таблицы
+    """Соединить строки таблицы
+
+    :param tuple1: - принимает отделюную строку Tuple таблицы table1
+    :param tuple2: - принимает отдельную строку Tuple таблицы table2
+    :return: - соединение строк tuple1 и tuple2
+    """
     return tuple1 + tuple2  # соединение двух строк
 
 
-def order_comparator_callback(table):  # сортировка таблицы по индексу элемента
+def order_comparator_callback(table: List[Tuple]):  # сортировка таблицы по индексу элемента
+    """Отсортировать таблицу по индексу элемента
+
+    :param table: - принимает таблицу List[Tuple] для сортировки
+    :return: - возврат table отсортированного по индексу элемента кортежа
+    """
     table.sort(key=lambda x: x[1])  # сортировка списка по индексу элемента кортежа
     return table  # возврат отсортированной таблицы
-
-
-# первая таблица List[Tuple]
-t1 = [
-    (1, "a"),
-    (2, "b"),
-    (3, "c"),
-    (4, "d")
-]
-# вторая таблица List[Tuple]
-t2 = [
-    ("a", "abra"),
-    ("b", "babra"),
-    ("c", "cabra"),
-    ("d", "dabra"),
-    ("e", "eureka"),
-    ("f", "furia")
-]
-
-print(join(t1, t2))  # вывод итогового результата
