@@ -2,7 +2,7 @@
 from typing import List, Tuple, Callable
 
 
-def condition_callback(tuple1: Tuple, tuple2: Tuple):  # функция сравнения первой и второй таблицы построчно
+def __condition_callback(tuple1: Tuple, tuple2: Tuple):  # функция сравнения первой и второй таблицы построчно
     """Сравнить отдельные строки таблицы по индексу элемента
 
     :param tuple1: - принимает отделюную строку Tuple таблицы table1
@@ -12,7 +12,7 @@ def condition_callback(tuple1: Tuple, tuple2: Tuple):  # функция срав
     return tuple1[1] == tuple2[0]  # сравнение по индексу элемента в строке
 
 
-def select_columns_callback(tuple1: Tuple, tuple2: Tuple):  # функция соединения строк первой и второй таблицы
+def __select_columns_callback(tuple1: Tuple, tuple2: Tuple):  # функция соединения строк первой и второй таблицы
     """Соединить строки таблицы
 
     :param tuple1: - принимает отделюную строку Tuple таблицы table1
@@ -22,7 +22,7 @@ def select_columns_callback(tuple1: Tuple, tuple2: Tuple):  # функция с�
     return tuple1 + tuple2  # соединение двух строк
 
 
-def order_comparator_callback(table: List[Tuple]):  # сортировка таблицы по индексу элемента
+def __order_comparator_callback(table: List[Tuple]):  # сортировка таблицы по индексу элемента
     """Отсортировать таблицу по индексу элемента
 
     :param table: - принимает таблицу List[Tuple] для сортировки
@@ -35,9 +35,9 @@ def order_comparator_callback(table: List[Tuple]):  # сортировка та�
 def join(
         table1: List[Tuple],
         table2: List[Tuple],
-        join_callback: Callable[[Tuple, Tuple], bool] = condition_callback,
-        select_callback: Callable[[Tuple, Tuple], Tuple] = select_columns_callback,
-        order_callback: Callable[[List[Tuple]], List[Tuple]] = order_comparator_callback,
+        join_callback: Callable[[Tuple, Tuple], bool] = __condition_callback,
+        select_callback: Callable[[Tuple, Tuple], Tuple] = __select_columns_callback,
+        order_callback: Callable[[List[Tuple]], List[Tuple]] = __order_comparator_callback,
         is_left_join: bool = False,):
     """ создать новую таблицу через алгоритм join
 
@@ -76,3 +76,7 @@ def join(
             if join_callback(tuple1, tuple2):  # принимаем результат функции сравнения строк таблиц
                 table.append(select_callback(tuple1, tuple2))  # построение итоговой таблицы
     return order_callback(table)  # возврат итоговой отсортированной таблицы
+
+
+if __name__ == '__main__':
+    pass
